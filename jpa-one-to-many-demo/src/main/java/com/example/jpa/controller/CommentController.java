@@ -27,6 +27,12 @@ public class CommentController {
         return commentRepository.findByPostId(postId, pageable);
     }
 
+    @PostMapping("/posts/{postId}/comments/{commentId}")
+    public Comment getCommentsByPostId(@PathVariable (value = "postId") Long postId,
+                                             @PathVariable (value = "commentId") Long commentId) {
+        return commentRepository.findByIdAndPostId(commentId,postId).orElseThrow(() -> new ResourceNotFoundException("Comment " + commentId + " for PostId " + postId + " not found"));
+    }
+
     @PostMapping("/posts/{postId}/comments")
     public Comment createComment(@PathVariable (value = "postId") Long postId,
                                  @Valid @RequestBody Comment comment) {

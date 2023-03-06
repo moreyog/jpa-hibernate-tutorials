@@ -22,6 +22,11 @@ public class PostController {
         return postRepository.findAll(pageable);
     }
 
+    @GetMapping("/posts/{postId}")
+    public Post getPostsById(@PathVariable Long postId,Pageable pageable) {
+        return postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("PostId " + postId + " not found"));
+    }
+
     @PostMapping("/posts")
     public Post createPost(@Valid @RequestBody Post post) {
         return postRepository.save(post);
